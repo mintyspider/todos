@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo</title>
+    <link rel="icon" href="notes.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+
+</head>
+<body>
+    <header>
+        <h1>ToDo List</h1>
+    </header>
+    <footer>
+        <p id="date"></p>
+        <p>Осталось:</p>
+        <p id="xdate"></p>
+    </footer>
+    <div class="add-task-container">
+        <input type="text" maxlength="12" id="taskText" placeholder="Добавить тему..." onkeydown="if (event.keyCode == 13) document.getElementById('add').click()">
+        <button id="add" class="button add-button" onclick="addTask()">Добавить</button>
+    </div>
+    
+    <div class="main-container">
+        <ul class="columns">
+    
+            <li class="column to-do-column">
+                <div class="column-header">
+                    <h4>🌟 В планах</h4>
+                </div>
+                <ul class="task-list" id="to-do">
+                </ul>
+            </li>
+    
+            <li class="column doing-column">
+                <div class="column-header">
+                    <h4>💫 Изучаю</h4>
+                </div>
+                <ul class="task-list" id="doing">
+                </ul>
+            </li>
+    
+            <li class="column done-column">
+                <div class="column-header">
+                    <h4>🏆 Завершено</h4>
+                </div>
+                <ul class="task-list" id="done">
+                </ul>
+            </li>
+    
+            <li class="column trash-column">
+                <div class="column-header">
+                    <h4>❌ Не нужОн</h4>
+                </div>
+                <ul class="task-list" id="trash">
+                </ul>
+                <div class="column-button">
+                    <button class="button delete-button" onclick="emptyTrash()">Удалить</button>
+                </div>
+            </li>
+    
+        </ul>
+    </div>
+    <script>
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = "Сегодня " + dd + '.' + mm + '.' + yyyy;
+        document.getElementById("date").innerHTML = today;
+        function dayTitle(number) {
+            if (number > 10 && [11, 12, 13, 14].includes(number%100)) return 'дней';
+            last_num = number%10;
+            if (last_num == 1) return ' день';
+            if ([2,3,4].includes(last_num)) return ' дня';
+            if ([5,6,7,8,9, 0].includes(last_num)) return ' дней';
+        }
+        let dateX = new Date("01/15/2025"); // парсим из нее дату с заменой строки в понятный JS формат (имеется в виду же 1 марта?)
+        let dateToday = new Date();
+        let days = Math.floor((dateX - dateToday) / 86400000);
+        let word = days + dayTitle(days);
+        document.getElementById("xdate").innerHTML = word;
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
